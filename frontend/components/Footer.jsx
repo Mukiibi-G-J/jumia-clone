@@ -1,32 +1,34 @@
-import React from "react";
-
+import React from 'react';
+import NextLink from 'next/link';
+import { Link } from '@material-ui/core';
+// import Link from 'next/link';
 const footers = [
   {
-    title: "Company",
-    description: ["Team", "History", "Contact us", "Locations"],
+    title: 'Company',
+    description: ['Team', 'History', 'Contact us', 'Locations'],
   },
   {
-    title: "Features",
+    title: 'Features',
     description: [
-      "Cool stuff",
-      "Random feature",
-      "Team feature",
-      "Developer stuff",
-      "Another one",
+      'Cool stuff',
+      'Random feature',
+      'Team feature',
+      'Developer stuff',
+      'Another one',
     ],
   },
   {
-    title: "Resources",
+    title: 'Resources',
     description: [
-      "Resource",
-      "Resource name",
-      "Another resource",
-      "Final resource",
+      'Resource',
+      'Resource name',
+      'Another resource',
+      'Final resource',
     ],
   },
   {
-    title: "Legal",
-    description: ["Privacy policy", "Terms of use"],
+    title: 'Legal',
+    description: ['Privacy policy', 'Terms of use'],
   },
 ];
 
@@ -34,8 +36,11 @@ function Footer() {
   return (
     <div className="bg-black mt-11 p-11">
       <div className="flex mx-auto">
-        {" "}
-        <h1 className="text-lg  text-white">Developer |🤨 Mukiibi Joseph</h1>
+        <NextLink href="http://josephmukiibi.com" passHref>
+          <Link>
+            <a className="text-lg  text-white">Developer |🤨 Mukiibi Joseph</a>
+          </Link>
+        </NextLink>
       </div>
       <div className="shadow-md flex  justify-between">
         {footers.map((footer) => (

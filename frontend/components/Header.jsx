@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Image from "next/image";
+import React, { useContext, useState } from 'react';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Image from 'next/image';
 
 import {
   InputBase,
@@ -13,8 +13,8 @@ import {
   MenuItem,
   IconButton,
   Badge,
-} from "@material-ui/core";
-// import { theme } from "../src/theme";
+} from '@material-ui/core';
+
 import {
   AccountCircle,
   AccountCircleOutlined,
@@ -25,131 +25,82 @@ import {
   Notifications,
   Search,
   ShoppingCartOutlined,
-} from "@material-ui/icons";
-import { makeStyles } from "@material-ui/styles";
+} from '@material-ui/icons';
+
+import { makeStyles } from '@material-ui/styles';
+import { Store } from '../context/store';
 
 const useStyles = makeStyles((theme) => ({
   bannerextension: {
-    color: "#FF9900",
+    color: '#FF9900',
   },
   image: {
-    objectFit: "contain",
+    objectFit: 'contain',
   },
   searchbtn: {
-    marginLeft: "20px",
-    backgroundColor: "#FF9900",
-    boxShadow: "0 4px 8px 0 rgb(0 0 0 / 20%)",
-    "&:hover": {
-      backgroundColor: "#E4811C",
+    marginLeft: '20px',
+    backgroundColor: '#FF9900',
+    boxShadow: '0 4px 8px 0 rgb(0 0 0 / 20%)',
+    '&:hover': {
+      backgroundColor: '#E4811C',
     },
   },
   header_options: {
-    display: "flex",
-    alignItems: "center",
-    marginRight: "7px",
-    [theme.breakpoints.down("md")]: {
-      marginRight: "4px",
+    display: 'flex',
+    alignItems: 'center',
+    marginRight: '7px',
+    [theme.breakpoints.down('md')]: {
+      marginRight: '4px',
     },
-    "&:hover": {
-      color: "#FF9900",
+    '&:hover': {
+      color: '#FF9900',
     },
   },
   header_options_right: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-around",
-    [theme.breakpoints.down("sm")]: {
-      display: "none",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
     },
   },
   searchinput: {
-    width: "520px",
-    [theme.breakpoints.down("md")]: {
-      width: "320px",
+    width: '520px',
+    [theme.breakpoints.down('md')]: {
+      width: '320px',
     },
-    [theme.breakpoints.down("sm")]: {
-      width: "220px",
+    [theme.breakpoints.down('sm')]: {
+      width: '220px',
     },
   },
   headerCenter: {
-    display: "flex",
-    alignItems: "center",
+    display: 'flex',
+    alignItems: 'center',
   },
   search: {
-    display: "flex",
+    display: 'flex',
 
-    flexGrow: "1",
-    alignItems: "center",
+    flexGrow: '1',
+    alignItems: 'center',
     // [theme.breakpoints.down("sm")]: {
     //   display: "none",
     //},
   },
   searchSection: {
-    display: "flex",
-    alignItems: "center",
-    padding: "1px 2px",
-    borderRadius: "5px",
-    border: "1px solid #75757A",
+    display: 'flex',
+    alignItems: 'center',
+    padding: '1px 2px',
+    borderRadius: '5px',
+    border: '1px solid #75757A',
   },
   header_text: {
-    textTransform: "capitalize",
-    marginLeft: "5px",
-    [theme.breakpoints.down("md")]: {
-      marginLeft: "3px",
+    textTransform: 'capitalize',
+    marginLeft: '5px',
+    [theme.breakpoints.down('md')]: {
+      marginLeft: '3px',
     },
   },
 }));
-const renderMobileMenu = (
-  <Menu
-    // anchorEl={mobileMoreAnchorEl}
-    // anchorOrigin={{
-    //   vertical: "top",
-    //   horizontal: "right",
-    // }}
-    // // id={mobileMenuId}
-    keepMounted
-    // transformOrigin={{
-    //   vertical: "top",
-    //   horizontal: "right",
-    // }}
-    // // open={isMobileMenuOpen}
-    // // onClose={handleMobileMenuClose}
-  >
-    <MenuItem>
-      <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-        <Badge badgeContent={4} color="error">
-          <Mail />
-        </Badge>
-      </IconButton>
-      <p>Messages</p>
-    </MenuItem>
-    <MenuItem>
-      <IconButton
-        size="large"
-        aria-label="show 17 new notifications"
-        color="inherit"
-      >
-        <Badge badgeContent={17} color="error">
-          <Notifications />
-        </Badge>
-      </IconButton>
-      <p>Notifications</p>
-    </MenuItem>
-    {/* <MenuItem onClick={handleProfileMenuOpen}> */}
-    <MenuItem>
-      <IconButton
-        size="large"
-        // aria-label="account of current user"
-        // aria-controls="primary-search-account-menu"
-        // aria-haspopup="true"
-        color="inherit"
-      >
-        <AccountCircle />
-      </IconButton>
-      <p>Profile</p>
-    </MenuItem>
-  </Menu>
-);
 
 export default function Header() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -166,14 +117,14 @@ export default function Header() {
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{
-        vertical: "top",
-        horizontal: "left",
+        vertical: 'top',
+        horizontal: 'left',
       }}
       // id={menuId}
       keepMounted
       transformOrigin={{
-        vertical: "top",
-        horizontal: "left",
+        vertical: 'top',
+        horizontal: 'left',
       }}
       open={Boolean(anchorEl)}
       onClose={handleMenuClose}
@@ -183,10 +134,13 @@ export default function Header() {
     </Menu>
   );
   const classes = useStyles();
+  const { state, dispatch } = useContext(Store);
+  const { cart } = state;
+
   return (
     <nav>
       {/* <Container maxWidth="xl"> */}
-      <Box sx={{ bgcolor: "#FF9900", mt: "0px" }}>
+      <Box sx={{ bgcolor: '#FF9900', mt: '0px' }}>
         <Image
           src="/images/banner.jpg"
           height="56"
@@ -196,7 +150,7 @@ export default function Header() {
         />
       </Box>
 
-      <Box sx={{ flexGrow: "1" }}>
+      <Box sx={{ flexGrow: '1' }}>
         <AppBar position="fixed" color="primary.dark">
           <Container maxWidth="lg">
             <Toolbar>
@@ -206,7 +160,7 @@ export default function Header() {
                 height="36px"
                 alt=""
               />
-              <Box sx={{ flexGrow: "1" }}></Box>
+              <Box sx={{ flexGrow: '1' }}></Box>
 
               <div className={classes.search}>
                 <div className={classes.searchSection}>
@@ -222,7 +176,7 @@ export default function Header() {
                 </Button>
               </div>
 
-              <Box sx={{ display: { xs: "none", md: "none" } }}>
+              <Box sx={{ display: { xs: 'none', md: 'none' } }}>
                 <div className={classes.header_options_right}>
                   <div className={classes.header_options}>
                     <AccountCircleOutlined />
@@ -241,7 +195,10 @@ export default function Header() {
                   </div>
 
                   <div className={classes.header_options}>
-                    <ShoppingCartOutlined />
+                    <Badge badgeContent={cart.cartItems.length} color="error">
+                      <ShoppingCartOutlined />
+                    </Badge>
+
                     <Typography className={classes.header_text} variant="h6">
                       cart
                     </Typography>
@@ -249,8 +206,8 @@ export default function Header() {
                 </div>
               </Box>
               <Box>
-                {" "}
-                <MoreVert onClick={openMenu} />{" "}
+                {' '}
+                <MoreVert onClick={openMenu} />{' '}
               </Box>
             </Toolbar>
           </Container>
