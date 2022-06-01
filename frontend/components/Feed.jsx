@@ -1,6 +1,6 @@
-import React from "react";
-import { Grid, Container, Typography, Card } from "@material-ui/core";
-import ReactPlayer from "react-player";
+import React from 'react';
+import { Grid, Container, Typography, Card } from '@material-ui/core';
+import ReactPlayer from 'react-player';
 // import { purple } from "material-ui-colors";
 import {
   ChildCare,
@@ -12,14 +12,14 @@ import {
   PhoneIphone,
   SportsEsports,
   Storefront,
-} from "@material-ui/icons";
-import SideBar from "./SideBar";
-import { makeStyles } from "@material-ui/styles";
-import Swipper from "./Swipper";
-import SmallCards from "./SmallCards";
-import Category from "./Category";
-import Advertises from "./Advertises";
-import Footer from "./Footer";
+} from '@material-ui/icons';
+import SideBar from './SideBar';
+import { makeStyles } from '@material-ui/styles';
+import Swipper from './Swipper';
+import SmallCards from './SmallCards';
+import Category from './Category';
+import Advertises from './Advertises';
+import Footer from './Footer';
 // import { purple } from "@material-ui/core/colors";
 // const useStyles = makeStyles((theme) => ({
 //   center: {
@@ -36,7 +36,8 @@ import Footer from "./Footer";
 //   //   // height: "320px",
 //   },
 // }));
-function Feed() {
+function Feed(props) {
+  const { products } = props;
   // const classes = useStyles();
   return (
     <div className="bg-[#EAEDED]">
@@ -66,7 +67,7 @@ function Feed() {
           </Grid>
           <Grid
             className="xs:hidden sm:hidden lg:inline-block"
-            sx={{ height: 320, display: "none" }}
+            sx={{ height: 320, display: 'none' }}
             item
             md={2}
           >
@@ -130,7 +131,7 @@ function Feed() {
                   loop="true"
                   width="320"
                   height="20"
-                  url={["/images/video/jumia.mp4", "/images/video/ad.mp4"]}
+                  url={['/images/video/jumia.mp4', '/images/video/ad.mp4']}
                   type="video/mp4"
                 />
               </div>
@@ -139,7 +140,7 @@ function Feed() {
         </Grid>
 
         <SmallCards />
-        <Category />
+        <Category products={products} />
         <Advertises />
       </Container>
       <Footer />

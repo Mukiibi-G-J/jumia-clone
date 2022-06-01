@@ -195,7 +195,10 @@ export default function Header() {
                   </div>
 
                   <div className={classes.header_options}>
-                    <Badge badgeContent={cart.cartItems.length} color="error">
+                    <Badge
+                      badgeContent={cart.cartItems.length}
+                      color="secondary"
+                    >
                       <ShoppingCartOutlined />
                     </Badge>
 
@@ -213,7 +216,7 @@ export default function Header() {
           </Container>
         </AppBar>
       </Box>
-      {renderMenu}
+      {/* {renderMenu} */}
       {/* {renderMobileMenu} */}
     </nav>
   );

@@ -1,4 +1,3 @@
-import { Switch } from '@material-ui/core';
 import { createContext, useReducer } from 'react';
 
 export const Store = createContext();
@@ -6,14 +5,25 @@ export const Store = createContext();
 //?
 const initialState = {
   cart: {
-    cartItems: ['hello', 'hello'],
+    cartItems: [],
   },
 };
 
-function reducer(action, state) {
+function reducer(state, action) {
   switch (action.type) {
     case 'CART_ADD_ITEM': {
-      return { ...state };
+      const newItem = action.payload;
+      //! here am checking wheather the item exits
+      const existItem = state.cart.cartItems.find((item) => {
+        item._id === newItem._id;
+      });
+      const cartItems = existItem
+        ? state.cart.cartItems.map((item) =>
+            item.name === existItem.name ? newItem : item
+          )
+        : [...state.cart.cartItems, newItem];
+
+      return { ...state, cart: { ...state.cart, cartItems } };
     }
 
     default:
