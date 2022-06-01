@@ -136,6 +136,7 @@ export default function Header() {
   const classes = useStyles();
   const { state, dispatch } = useContext(Store);
   const { cart } = state;
+  console.log(cart.cartItems.length);
 
   return (
     <nav>
@@ -176,7 +177,7 @@ export default function Header() {
                 </Button>
               </div>
 
-              <Box sx={{ display: { xs: 'none', md: 'none' } }}>
+              <Box sx={{ display: { xs: 'none' } }}>
                 <div className={classes.header_options_right}>
                   <div className={classes.header_options}>
                     <AccountCircleOutlined />
@@ -196,7 +197,7 @@ export default function Header() {
 
                   <div className={classes.header_options}>
                     <Badge
-                      badgeContent={cart.cartItems.length}
+                      badgeContent={cart.cartItems.length || '0'}
                       color="secondary"
                     >
                       <ShoppingCartOutlined />
