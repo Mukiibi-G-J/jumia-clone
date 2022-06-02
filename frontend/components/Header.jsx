@@ -11,24 +11,20 @@ import {
   Box,
   Menu,
   MenuItem,
-  IconButton,
   Badge,
 } from '@material-ui/core';
 
 import {
-  AccountCircle,
   AccountCircleOutlined,
   HelpOutlineOutlined,
   KeyboardArrowDownOutlined,
-  Mail,
-  MoreVert,
-  Notifications,
   Search,
   ShoppingCartOutlined,
 } from '@material-ui/icons';
 
 import { makeStyles } from '@material-ui/styles';
 import { Store } from '../context/store';
+import Link from 'next/link';
 
 const useStyles = makeStyles((theme) => ({
   bannerextension: {
@@ -82,9 +78,6 @@ const useStyles = makeStyles((theme) => ({
 
     flexGrow: '1',
     alignItems: 'center',
-    // [theme.breakpoints.down("sm")]: {
-    //   display: "none",
-    //},
   },
   searchSection: {
     display: 'flex',
@@ -155,12 +148,14 @@ export default function Header() {
         <AppBar position="fixed" color="primary.dark">
           <Container maxWidth="lg">
             <Toolbar>
-              <Image
-                src="/images/logo.png"
-                width="139px"
-                height="36px"
-                alt=""
-              />
+              <Link href="/">
+                <Image
+                  src="/images/logo.png"
+                  width="139px"
+                  height="36px"
+                  alt=""
+                />
+              </Link>
               <Box sx={{ flexGrow: '1' }}></Box>
 
               <div className={classes.search}>
@@ -177,7 +172,7 @@ export default function Header() {
                 </Button>
               </div>
 
-              <Box sx={{ display: { xs: 'none' } }}>
+              <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                 <div className={classes.header_options_right}>
                   <div className={classes.header_options}>
                     <AccountCircleOutlined />
@@ -194,25 +189,23 @@ export default function Header() {
                     </Typography>
                     <KeyboardArrowDownOutlined />
                   </div>
+                  <Link href="/cart">
+                    <div className={classes.header_options}>
+                      <Badge
+                        badgeContent={cart.cartItems.length || '0'}
+                        color="secondary"
+                      >
+                        <ShoppingCartOutlined />
+                      </Badge>
 
-                  <div className={classes.header_options}>
-                    <Badge
-                      badgeContent={cart.cartItems.length || '0'}
-                      color="secondary"
-                    >
-                      <ShoppingCartOutlined />
-                    </Badge>
-
-                    <Typography className={classes.header_text} variant="h6">
-                      cart
-                    </Typography>
-                  </div>
+                      <Typography className={classes.header_text} variant="h6">
+                        cart
+                      </Typography>
+                    </div>
+                  </Link>
                 </div>
               </Box>
-              <Box>
-                {' '}
-                <MoreVert onClick={openMenu} />{' '}
-              </Box>
+              <Box>{/* <MoreVert onClick={openMenu} /> */}</Box>
             </Toolbar>
           </Container>
         </AppBar>

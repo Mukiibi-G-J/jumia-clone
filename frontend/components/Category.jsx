@@ -4,7 +4,6 @@ import { Store } from '../context/store';
 function Category({ products }) {
   const { state, dispatch } = useContext(Store);
   const addProductHandler = (product) => {
-    
     dispatch({ type: 'CART_ADD_ITEM', payload: { ...product } });
   };
   console.log(products);

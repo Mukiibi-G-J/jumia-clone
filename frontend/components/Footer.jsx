@@ -34,7 +34,7 @@ const footers = [
 
 function Footer() {
   return (
-    <div className="bg-black mt-11 p-11">
+    <div className="bg-black mt-[100px] mb-0 p-11">
       <div className="flex mx-auto">
         <NextLink href="http://josephmukiibi.com" passHref>
           <Link>
