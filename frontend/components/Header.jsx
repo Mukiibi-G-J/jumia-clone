@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Image from 'next/image';
+import React, { useContext, useState } from "react";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Image from "next/image";
 
 import {
   InputBase,
@@ -12,120 +12,140 @@ import {
   Menu,
   MenuItem,
   Badge,
-} from '@material-ui/core';
+  Popper,
+  Grow,
+  ClickAwayListener,
+  MenuList,
+  Paper,
+  Divider,
+} from "@material-ui/core";
 
 import {
   AccountCircleOutlined,
   HelpOutlineOutlined,
   KeyboardArrowDownOutlined,
+  KeyboardArrowUpOutlined,
+  Person,
   Search,
   ShoppingCartOutlined,
-} from '@material-ui/icons';
+} from "@material-ui/icons";
 
-import { makeStyles } from '@material-ui/styles';
-import { Store } from '../context/store';
-import Link from 'next/link';
+import { makeStyles } from "@material-ui/styles";
+import InventoryIcon from "@mui/icons-material/Inventory";
+import { Store } from "../context/store";
+import Link from "next/link";
 
 const useStyles = makeStyles((theme) => ({
   bannerextension: {
-    color: '#FF9900',
+    color: "#FF9900",
   },
   image: {
-    objectFit: 'contain',
+    objectFit: "contain",
   },
   searchbtn: {
-    marginLeft: '20px',
-    backgroundColor: '#FF9900',
-    boxShadow: '0 4px 8px 0 rgb(0 0 0 / 20%)',
-    '&:hover': {
-      backgroundColor: '#E4811C',
+    marginLeft: "20px",
+    backgroundColor: "#FF9900",
+    boxShadow: "0 4px 8px 0 rgb(0 0 0 / 20%)",
+    "&:hover": {
+      backgroundColor: "#E4811C",
     },
   },
   header_options: {
-    display: 'flex',
-    alignItems: 'center',
-    marginRight: '7px',
-    [theme.breakpoints.down('md')]: {
-      marginRight: '4px',
+    display: "flex",
+    alignItems: "center",
+    marginRight: "7px",
+    [theme.breakpoints.down("md")]: {
+      marginRight: "4px",
     },
-    '&:hover': {
-      color: '#FF9900',
+    "&:hover": {
+      color: "#FF9900",
     },
   },
   header_options_right: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    [theme.breakpoints.down('sm')]: {
-      display: 'none',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-around",
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
     },
   },
   searchinput: {
-    width: '520px',
-    [theme.breakpoints.down('md')]: {
-      width: '320px',
+    width: "520px",
+    [theme.breakpoints.down("md")]: {
+      width: "320px",
     },
-    [theme.breakpoints.down('sm')]: {
-      width: '220px',
+    [theme.breakpoints.down("sm")]: {
+      width: "220px",
     },
   },
   headerCenter: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
   },
   search: {
-    display: 'flex',
+    display: "flex",
 
-    flexGrow: '1',
-    alignItems: 'center',
+    flexGrow: "1",
+    alignItems: "center",
   },
   searchSection: {
-    display: 'flex',
-    alignItems: 'center',
-    padding: '1px 2px',
-    borderRadius: '5px',
-    border: '1px solid #75757A',
+    display: "flex",
+    alignItems: "center",
+    padding: "1px 2px",
+    borderRadius: "5px",
+    border: "1px solid #75757A",
   },
   header_text: {
-    textTransform: 'capitalize',
-    marginLeft: '5px',
-    [theme.breakpoints.down('md')]: {
-      marginLeft: '3px',
+    textTransform: "capitalize",
+    marginLeft: "5px",
+    [theme.breakpoints.down("md")]: {
+      marginLeft: "3px",
     },
+  },
+  nav__account_btn: {
+    display: "flex",
+    alignItems: "center",
+    backgroundColor: "#EDEDED",
+    borderRadius: "4px",
+    padding: "4px",
   },
 }));
 
 export default function Header() {
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef(null);
 
-  const openMenu = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
   };
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+
+    setOpen(false);
   };
 
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'left',
-      }}
-      // id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'left',
-      }}
-      open={Boolean(anchorEl)}
-      onClose={handleMenuClose}
-    >
-      <MenuItem>Profile</MenuItem>
-      <MenuItem>My account</MenuItem>
-    </Menu>
-  );
+  function handleListKeyDown(event) {
+    if (event.key === "Tab") {
+      event.preventDefault();
+      setOpen(false);
+    } else if (event.key === "Escape") {
+      setOpen(false);
+    }
+  }
+
+  // return focus to the button when we transitioned from !open -> open
+  const prevOpen = React.useRef(open);
+  React.useEffect(() => {
+    if (prevOpen.current === true && open === false) {
+      anchorRef.current.focus();
+    }
+
+    prevOpen.current = open;
+  }, [open]);
+
   const classes = useStyles();
   const { state, dispatch } = useContext(Store);
   const { cart } = state;
@@ -134,7 +154,7 @@ export default function Header() {
   return (
     <nav>
       {/* <Container maxWidth="xl"> */}
-      <Box sx={{ bgcolor: '#FF9900', mt: '0px' }}>
+      <Box sx={{ bgcolor: "#FF9900", mt: "0px" }}>
         <Image
           src="/images/banner.jpg"
           height="56"
@@ -144,7 +164,7 @@ export default function Header() {
         />
       </Box>
 
-      <Box sx={{ flexGrow: '1' }}>
+      <Box sx={{ flexGrow: "1" }}>
         <AppBar position="fixed" color="primary.dark">
           <Container maxWidth="lg">
             <Toolbar>
@@ -156,7 +176,7 @@ export default function Header() {
                   alt=""
                 />
               </Link>
-              <Box sx={{ flexGrow: '1' }}></Box>
+              <Box sx={{ flexGrow: "1" }}></Box>
 
               <div className={classes.search}>
                 <div className={classes.searchSection}>
@@ -172,14 +192,82 @@ export default function Header() {
                 </Button>
               </div>
 
-              <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+              <Box sx={{ display: { xs: "none", md: "flex" } }}>
                 <div className={classes.header_options_right}>
                   <div className={classes.header_options}>
-                    <AccountCircleOutlined />
-                    <Typography className={classes.header_text} variant="h6">
-                      login
-                    </Typography>
-                    <KeyboardArrowDownOutlined />
+                    <div
+                      ref={anchorRef}
+                      id="composition-button"
+                      onClick={handleToggle}
+                      className={classes.nav__account_btn}
+                    >
+                      <Person />
+
+                      <Typography className={classes.header_text} variant="h6">
+                        Account
+                      </Typography>
+                      {open ? (
+                        <KeyboardArrowUpOutlined />
+                      ) : (
+                        <KeyboardArrowDownOutlined />
+                      )}
+                    </div>
+                    <Popper
+                      open={open}
+                      anchorEl={anchorRef.current}
+                      role={undefined}
+                      placement="bottom"
+                      transition
+                      disablePortal
+                      style={{ zIndex: 1, width: "200px" }}
+                    >
+                      {({ TransitionProps, placement }) => (
+                        <Grow
+                          {...TransitionProps}
+                          style={{
+                            transformOrigin:
+                              placement === "bottom-start"
+                                ? "left top"
+                                : "left bottom",
+                          }}
+                        >
+                          <Paper>
+                            <ClickAwayListener onClickAway={handleClose}>
+                              <MenuList
+                                autoFocusItem={open}
+                                id="composition-menu"
+                                aria-labelledby="composition-button"
+                                onKeyDown={handleListKeyDown}
+                              >
+                                <MenuItem onClick={handleClose}>
+                                  <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    // onClick={checkoutHandler}
+                                    fullWidth
+                                  >
+                                    SIGN IN
+                                  </Button>
+                                </MenuItem>
+                                <Divider />
+                                <MenuItem
+                                  onClick={handleClose}
+                                  style={{ marginTop: "10px" }}
+                                >
+                                  <Person />
+                                  My account
+                                </MenuItem>
+
+                                <MenuItem onClick={handleClose}  style={{ marginTop: "10px" }}>
+                                  <InventoryIcon />
+                                  Orders
+                                </MenuItem>
+                              </MenuList>
+                            </ClickAwayListener>
+                          </Paper>
+                        </Grow>
+                      )}
+                    </Popper>
                   </div>
 
                   <div className={classes.header_options}>
@@ -192,7 +280,7 @@ export default function Header() {
                   <Link href="/cart">
                     <div className={classes.header_options}>
                       <Badge
-                        badgeContent={cart.cartItems.length || '0'}
+                        badgeContent={cart.cartItems.length || "0"}
                         color="secondary"
                       >
                         <ShoppingCartOutlined />
