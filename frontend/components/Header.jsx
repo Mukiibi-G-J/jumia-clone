@@ -3,6 +3,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Image from "next/image";
+import NextLink from "next/link";
 
 import {
   InputBase,
@@ -240,6 +241,7 @@ export default function Header() {
                                 onKeyDown={handleListKeyDown}
                               >
                                 <MenuItem onClick={handleClose}>
+                                  <NextLink href="/register" passHref>
                                   <Button
                                     variant="contained"
                                     color="secondary"
@@ -248,6 +250,7 @@ export default function Header() {
                                   >
                                     SIGN IN
                                   </Button>
+                                  </NextLink>
                                 </MenuItem>
                                 <Divider />
                                 <MenuItem
